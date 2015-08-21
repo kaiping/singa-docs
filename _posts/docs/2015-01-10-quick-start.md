@@ -9,7 +9,7 @@ tags : [installation, examples]
 ## SINGA setup
 
 Please refer to the
-[installation]({{ BASE_PATH }}/docs/installation %}) page
+[installation]({{ BASE_PATH }}/docs/installation/}) page
 for guidance on installing SINGA.
 
 ### Starting Zookeeper

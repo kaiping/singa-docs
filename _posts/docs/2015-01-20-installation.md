@@ -58,7 +58,7 @@ There are three ways to build SINGA,
         $ make
 
 
-  * If you download a release package, please follow the below instructions,
+  * If you download a release package, please follow the instructions below,
 
         $ tar xvf singa-xxx
         $ cd singa-xxx
