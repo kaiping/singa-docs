@@ -8,7 +8,7 @@ category: docs
 
 ### Dependencies
 
-SINGA is developed and tested on Linux platforms with the following external libraries.
+SINGA is developed and tested on Linux platforms.
 
 The following dependenies are required:
 
@@ -38,13 +38,7 @@ SINGA comes with a script for installing the external libraries (see below).
 
 ### Building SINGA from source
 
-The build system of SINGA is based on GNU autotools. To build SINGA, you need gcc version >= 4.8.
-The common steps to build SINGA can be:
-
-	1.Extract source files;
-	2.Run configure script to generate makefiles;
-	3.Build SINGA.
-
+SINGA is built using GNU autotools. GCC (version >= 4.8) is required.
 There are three ways to build SINGA,
 
   * If you want to use the latest code, please clone it from
@@ -118,7 +112,7 @@ Here is a table showing the first arguments:
 
 *: Since `czmq` depends on `zeromq`, the script offers you one more argument to
 indicate `zeromq` location.
-The installation commands of `czmq` can be:
+The installation commands of `czmq` is:
 
     $./install.sh czmq  /usr/local /usr/local/zeromq
 
@@ -130,7 +124,7 @@ installed in `/usr/local/zeromq`.
 Q1:While compiling SINGA and installing `glog` on max OS X, I get fatal error
 `'ext/slist' file not found`
 
-A1:You may install `glog` individually and try command :
+A1:Please install `glog` individually and try :
 
     $ make CFLAGS='-stdlib=libstdc++' CXXFLAGS='stdlib=libstdc++'
 
@@ -154,10 +148,8 @@ run:
 Or as an alternative option, you can also edit LIBRARY_PATH to figure it out.
 
 
-Q4:I get ImportError from google.protobuf.internal when I try to import .py
-files.
-
-    ImportError: cannot import name enum_type_wrapper
+Q4:I get `ImportError: cannot import name enum_type_wrapper` from
+google.protobuf.internal when I try to import .py files.
 
 A4:After install google protobuf by "make install", we should install python
 runtime libraries. Go to protobuf source directory, run:
@@ -168,4 +160,4 @@ runtime libraries. Go to protobuf source directory, run:
     $ python setup.py install
 
 You may need `sudo` when you try to install python runtime libraries in
-system folder.
+the system folder.

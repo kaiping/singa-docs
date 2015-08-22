@@ -9,7 +9,7 @@ tags : [installation, examples]
 ## SINGA setup
 
 Please refer to the
-[installation]({{ BASE_PATH }}/docs/installation/}) page
+[installation]({{ BASE_PATH }}/docs/installation}) page
 for guidance on installing SINGA.
 
 ### Starting Zookeeper
@@ -35,7 +35,7 @@ default port, please edit the `conf/singa.conf`:
 ## Running in standalone mode
 
 Running SINGA in standalone mode is on the contrary of running it using cluster
-managers like Mesos or YARN.
+managers like [Mesos](http://mesos.apache.org/) or [YARN](http://hadoop.apache.org/docs/current/hadoop-yarn/hadoop-yarn-site/YARN.html).
 
 {% comment %}
 For standalone mode, users have to manage the resources manually. For
@@ -51,7 +51,7 @@ local host. We train the [CNN model](http://papers.nips.cc/paper/4824-imagenet-c
 [CIFAR-10](http://www.cs.toronto.edu/~kriz/cifar.html) dataset as an example.
 The hyper-parameters are set following
 [cuda-convnet](https://code.google.com/p/cuda-convnet/). More details is
-available at [cnn example]({{ BASE_PATH }}/docs/cnn).
+available at [CNN example]({{ BASE_PATH }}/docs/cnn).
 
 
 #### Preparing data and job configuration
@@ -83,8 +83,22 @@ The training is started by running:
     cd ../../
     ./bin/singa-run.sh -conf examples/cifar10/job.conf
 
-(`./bin/singa-console.sh kill JOB_ID` kills the job, JOB_ID is printed after
-the job is started)
+
+You can list the current running jobs by,
+
+    ./bin/singa-console.sh list
+
+    JOB ID    |NUM PROCS
+    ----------|-----------
+    24        |1
+
+Jobs can be killed by,
+
+    ./bin/singa-console.sh kill JOB_ID
+
+
+Logs and job information are available in */tmp/singa-log* folder, which can be
+changed to other folders by setting `log-dir` in *conf/singa.conf*.
 
 {% comment %}
 One worker group trains against one partition of the training dataset. If
@@ -104,13 +118,15 @@ described in the [System Architecture]() page.
       workspace: "examples/cifar10/"
     }
 
-Change the original *job.conf* with the above cluster setting. By default, each
+In SINGA, [asynchronous training]({{ BASE_PATH }}/docs/architecture) is enabled
+by launching multiple worker groups. For example, we can change the original
+*job.conf* to have two worker groups as shown above. By default, each
 worker group has one worker. Since one process is set to contain two workers.
 The two worker groups will run in the same process.  Consequently, they run
-the in-memory [Downpour]({{ BASE_PATH }}/docs/distributed-training) training framework.
+the in-memory [Downpour]({{ BASE_PATH }}/docs/frameworks) training framework.
 Users do not need to split the dataset
 explicitly for each worker (group); instead, they can assign each worker (group) a
-random offset to the start of the dataset. Consequently, the workers run like on
+random offset to the start of the dataset. The workers would run as on
 different data partitions.
 
     # job.conf
@@ -139,10 +155,12 @@ The running command is:
       workspace: "examples/cifar10/"
     }
 
-Change the original *job.conf* with the above cluster configuration.
-It sets one worker group with two workers. The workers will run synchronously
+In SINGA, [asynchronous training]({{ BASE_PATH }}/docs/architecture) is enabled
+by launching multiple workers within one worker group. For instance, we can
+change the original *job.conf* to have two workers in one worker group as shown
+above. The workers will run synchronously
 as they are from the same worker group. This framework is the in-memory
-[sandblaster]({{ BASE_PATH }}/docs/distributed-training).
+[sandblaster]({{ BASE_PATH }}/docs/frameworks).
 The model is partitioned among the two workers. In specific, each layer is
 sliced over the two workers.  The sliced layer
 is the same as the original layer except that it only has `B/g` feature
@@ -160,7 +178,8 @@ cluster configuration with:
 
     nworker_per_procs: 1
 
-Every process would then create only one worker thread. The *hostfile*
+Every process would then create only one worker thread. Consequently, the workers
+would be created in different processes (i.e., nodes). The *hostfile*
 must be provided under *SINGA_ROOT/conf/* specifying the nodes in the cluster,
 e.g.,
 

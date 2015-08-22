@@ -6,8 +6,6 @@ tags : [programming]
 ---
 {% include JB/setup %}
 
-<img src="{{ BASE_PATH }}/assets/image/overview.png" align="center" width="400px"/>
-<span><strong>Figure 1 - SINGA overview.</strong></span>
 
 To submit a training job, users must provide the configuration of the
 four components shown in Figure 1:
@@ -22,6 +20,11 @@ built-in components; while the *Advanced user guide* section presents details
 on writing user's own main function to register components implemented by
 themselves. In addition, the training data must be prepared, which has the same
 [process]({{ BASE_PATH }}/docs/data) for both advanced users and basic users.
+
+<img src="{{ BASE_PATH }}/assets/image/overview.png" align="center" width="400px"/>
+<span><strong>Figure 1 - SINGA overview.</strong></span>
+
+
 
 ## Basic user guide
 
